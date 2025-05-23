@@ -1,0 +1,85 @@
+{% # custom code for app exclusive button %}
+{%- if product.tags contains 'app-exclusive' and product.metafields.custom.app_exclusive_dynamic_link != blank -%}
+  <a href="{{ product.metafields.custom.app_exclusive_dynamic_link }}" class="button button--full-width{% if block.settings.hide_atc_on_mobile %} small-hide{% endif %}" tabindex="-1" target="_blank">
+    {{ 'App Exclusive' | upcase }}
+  </a>
+{% # custom code for app exclusive button ends here %}  
+{% # custom code for complementary products ATC button %} 
+{%- elsif product.metafields.custom.complementary_products.value != blank -%}    
+<button
+  type="button"
+  class="product-form__submit button{% if block.settings.show_dynamic_checkout %} button--secondary{% endif %} button--full-width{% if block.settings.hide_atc_on_mobile %} small-hide{% endif %} upsell-popup-trigger"
+  {%- if product.selected_or_first_available_variant.available == false %}
+    disabled="disabled"
+  {% endif -%}
+  {%- if product.template_suffix == 'pre-order' %}
+    data-pre-order="true"
+  {%- endif -%}
+  onclick="showPopup()"
+>
+  {%- liquid
+    if product.selected_or_first_available_variant.available
+      if product.template_suffix != 'pre-order'
+        echo 'products.product.add_to_cart' | t
+      else
+        echo 'products.product.pre_order' | t
+      endif
+    else
+      echo 'products.product.sold_out' | t
+    endif
+  -%}
+</button>   
+{% # custom code for complementary products ATC button ends here %}
+{% # custom code for personalized products ATC button %}
+{%- elsif product.metafields.custom.personalised_product.value.selected_or_first_available_variant.id == product.selected_or_first_available_variant.id -%}  
+<button
+  type="button"
+  class="product-form__submit button{% if block.settings.show_dynamic_checkout %} button--secondary{% endif %} button--full-width{% if block.settings.hide_atc_on_mobile %} small-hide{% endif %} personalize-trigger"
+  {%- if product.selected_or_first_available_variant.available == false %}
+    disabled="disabled"
+  {% endif -%}
+  {%- if product.template_suffix == 'pre-order' %}
+    data-pre-order="true"
+  {%- endif -%}
+  onclick="showPersonalize()"
+>
+  {%- liquid
+    if product.selected_or_first_available_variant.available
+      if product.template_suffix != 'pre-order'
+        echo 'products.product.add_to_cart' | t
+      else
+        echo 'products.product.pre_order' | t
+      endif
+    else
+      echo 'products.product.sold_out' | t
+    endif
+  -%}
+</button>
+{% # custom code for personalized products ATC button ends here %}
+{%- else -%}
+<button
+  type="submit"
+  name="add"
+  class="product-form__submit button{% if block.settings.show_dynamic_checkout %} button--secondary{% endif %} button--full-width{% if block.settings.hide_atc_on_mobile %} small-hide{% endif %}"
+  {%- if product.selected_or_first_available_variant.available == false %}
+    disabled="disabled"
+  {% endif -%}
+  {%- if product.template_suffix == 'pre-order' %}
+    data-pre-order="true"
+  {%- endif -%}
+>
+  {%- liquid
+    if product.selected_or_first_available_variant.available
+      if product.template_suffix != 'pre-order'
+        echo 'products.product.add_to_cart' | t
+      else
+        echo 'products.product.pre_order' | t
+      endif
+    else
+      echo 'products.product.sold_out' | t
+    endif
+  -%}
+</button>
+{% # custom code for app exclusive button %}
+{%- endif -%}  
+{% # custom code for app exclusive button ends here %}
