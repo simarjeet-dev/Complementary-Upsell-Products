@@ -1,0 +1,25 @@
+{% comment %}Display properties, hiding any with _FBT{% endcomment %}
+{%- for property in item.properties -%}
+  {%- assign property_key = property[0] -%}
+  {%- assign property_value = property[1] -%}
+  
+  {%- if property_value != blank and property_value != 'upsell_product' -%}
+    {%- unless property_key contains '_FBT' or property_key contains '_Image' or property_key contains '_Font Color' -%}
+      <div class="product-option">
+        <dt>
+          {{ property_key | replace: '_ITEM', 'ITEM' | replace: '_Text', 'Text:' }}
+          {%- unless property_value contains 'Default Title' %}{% endunless %}
+        </dt>
+        <dd>
+          {%- if property_value contains '/uploads/' -%}
+            <a href="{{ property_value }}" class="link" target="_blank">
+              {{ property_value | split: '/' | last }}
+            </a>
+          {%- else -%}
+            {{ property_value | split: ' SKU:' | first | remove: ' - Default Title' }}
+          {%- endif -%}
+        </dd>
+      </div>
+    {%- endunless -%}
+  {%- endif -%}
+{%- endfor -%}
