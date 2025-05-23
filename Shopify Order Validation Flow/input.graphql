@@ -1,0 +1,11 @@
+query {
+  order {
+    lineItems {
+      id
+      customAttributes {
+        key
+        value
+      }
+    }
+  }
+}
